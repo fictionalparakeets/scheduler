@@ -5,13 +5,13 @@ import "components/InterviewerList.scss";
 
 /* --------- props:
     interviewers:array - an array of objects containing the information of each interviewer
-    interviewer:number - the id of an interviewer
+    interviewer:number - the id of an interviewer > Turned into `value` (controlled component)
     setInterviewer:function - a function that accepts an interviewer id
 */
 
 export default function InterviewerList(props) {
   // console.log('props inside interviewerList: ', props);
-  const { interviewers, interviewer, setInterviewer } = props;
+  const { interviewers, value, onChange } = props;
   // console.log('interviewer inside interviewerList: ', interviewer);
 
   const result = interviewers.map(eachInterviewer => {
@@ -20,8 +20,8 @@ export default function InterviewerList(props) {
     key={eachInterviewer.id}
     name={eachInterviewer.name}
     avatar={eachInterviewer.avatar}
-    selected={eachInterviewer.id === interviewer}
-    setInterviewer={() => setInterviewer(eachInterviewer.id)}
+    selected={eachInterviewer.id === value}
+    setInterviewer={() => onChange(eachInterviewer.id)}
     />
     )
   })

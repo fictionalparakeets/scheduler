@@ -9,7 +9,6 @@ import "components/InterviewerListItem.scss";
     avatar:url - a url to an image of the interviewer
     selected:boolean - to determine if an interview is selected or not
     setInterviewer:function - sets the interviewer upon selection
-
 */
 
 export default function InterviewerListItem(props) {

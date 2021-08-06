@@ -8,64 +8,29 @@ import getAppointmentsForDay from "../helpers/selectors";
 import "components/Application.scss";
 
 
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 3,
-    time: "2pm",
-  },
-  {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "Arnold Palmer",
-      interviewer: {
-        id: 1,
-        name: "Marcus Kristjanssen",
-        avatar: "https://i.imgur.com/twYrpay.jpg",
-      }
-    }
-  },
-  {
-    id: 5,
-    time: "4pm",
-    interview: {
-      student: "Svetlana Khorkina",
-      interviewer: {
-        id: 1,
-        name: "Opal Erikson",
-        avatar: "https://i.imgur.com/FK8V841.jpg",
-      }
-    }
-  }
-];
-
-
-
 export default function Application(props) {
 
-  const [day, setDay] = useState("Monday");
-  const [days, setDays] = useState([]);
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {}
+  });
+  
+  // aliasing action for this file
+  const setDay = day => setState({ ...state, day });
+  
+  // update for other files (not sure if this is required?)
+  // const state = { day: "Monday", days: [] };
+  // setState({ ...state, day: "Tuesday" });
 
   useEffect(() => {
-    axios.get('http://localhost:8002/api/days').then(response => {
-      console.log('success: ', response.data);
-      setDays(response.data);
+    Promise.all([
+      axios.get('http://localhost:8002/api/days'),
+      axios.get('http://localhost:8002/api/appointments'),
+      axios.get('http://localhost:8002/api/interviewers') 
+    ])
+      .then(all => {
+        setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}));
       })
       .catch((error) => {
         console.log(error.response.status);
@@ -75,8 +40,8 @@ export default function Application(props) {
   }, [])
 
 
-
-  const dailyAppointments = appointments.map(eachObj => {
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const mappedDailyAppts = dailyAppointments.map(eachObj => {
     return (
       <Appointment
       key={eachObj.id}
@@ -84,8 +49,8 @@ export default function Application(props) {
       />
     )
   })
+  mappedDailyAppts.push(<Appointment key="last" time="5pm" />)
 
-  dailyAppointments.push(<Appointment key="last" time="5pm" />)
 
   return (
     <main className="layout">
@@ -98,9 +63,9 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            day={day}
+            day={state.day}
             setDay={setDay}
-            days={days}
+            days={state.days}
           />
         </nav>
         <img
@@ -110,7 +75,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {dailyAppointments}
+        {mappedDailyAppts}
       </section>
     </main>
   );

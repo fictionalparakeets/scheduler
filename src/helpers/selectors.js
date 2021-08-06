@@ -1,13 +1,14 @@
 
-
-export function getAppointmentsForDay(state, day){
+export default function getAppointmentsForDay(state, day){
   let appts = [];
 
-  state.days.map(dayObject => {
+  state.days.forEach(dayObject => {
     if (dayObject.name === day) {
-      dayObject.appointments.map(apptNum => {
+      dayObject.appointments.forEach(apptNum => {
         appts.push(state.appointments[apptNum])
+        return;
       })
+      return;
     }
   })
 

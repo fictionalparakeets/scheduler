@@ -36,20 +36,21 @@ storiesOf("Button", module)
     </Button>
   ));
 
+
 // ------------------------------------------------- DayListItem
 storiesOf("DayListItem", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
   })
-  .add("Unselected", () => <DayListItem name="Monday" spots={5} />) // To define our stories, we call add() once for each of our test states to generate a story
+  .add("Unselected", () => <DayListItem name="Monday" spots={5} />)
   .add("Selected", () => <DayListItem name="Monday" spots={5} selected />)
   .add("Full", () => <DayListItem name="Monday" spots={0} />)
   .add("Clickable", () => (
     <DayListItem name="Tuesday" setDay={action("setDay")} spots={5} />
-  )); // action() allows us to create a callback that appears in the actions panel when clicked
+  ));
+
 
 // ------------------------------------------------- DayList
-// Hard-coded Data to be replaced by API:
 const days = [
   {
     id: 1,
@@ -73,14 +74,14 @@ storiesOf("DayList", module)
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
   })
   .add("Monday", () => (
-    <DayList days={days} value={"Monday"} onChange={action("setDay")} />
+    <DayList days={days} name={"Monday"} setDay={action("setDay")} />
   ))
   .add("Tuesday", () => (
-    <DayList days={days} value={"Tuesday"} onChange={action("setDay")} />
+    <DayList days={days} name={"Tuesday"} setDay={action("setDay")} />
   ));
 
+
 // ------------------------------------------------- InterviewerListItem
-// Hard-coded Data to be replaced by API:
 const interviewer = {
   id: 1,
   name: "Sylvia Palmer",
@@ -106,14 +107,6 @@ storiesOf("InterviewerListItem", module)
       selected
     />
   ))
-  // .add("Clickable", () => (
-  //   <InterviewerListItem
-  //     id={interviewer.id}
-  //     name={interviewer.name}
-  //     avatar={interviewer.avatar}
-  //     setInterviewer={action("setInterviewer")}
-  //   />
-  // ));
   .add("Clickable", () => (
     <InterviewerListItem
       id={interviewer.id}
@@ -124,9 +117,7 @@ storiesOf("InterviewerListItem", module)
   ));
   
 
-
 // ------------------------------------------------- InterviewerList
-// Hard-coded Data to be replaced by API:
 const interviewers = [
   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
   { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
@@ -153,6 +144,7 @@ storiesOf("InterviewerList", module)
     />
   ));
 
+  
 // ------------------------------------------------- Appointment/index
 storiesOf("Appointment", module)
   .addParameters({
@@ -184,6 +176,4 @@ storiesOf("Appointment", module)
       <Appointment id="last" time="1pm" />
     </Fragment>
   ))
-  
-  
- 
+

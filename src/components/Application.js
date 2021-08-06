@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import DayList from "./DayList";
 import Appointment from "./Appointment/index";
+import getAppointmentsForDay from "../helpers/selectors";
 
 import "components/Application.scss";
 
@@ -66,8 +67,13 @@ export default function Application(props) {
       console.log('success: ', response.data);
       setDays(response.data);
       })
-      .catch(e => console.log("error: ", e));
+      .catch((error) => {
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        console.log(error.response.data);
+      });
   }, [])
+
 
 
   const dailyAppointments = appointments.map(eachObj => {

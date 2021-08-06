@@ -1,5 +1,5 @@
 
-export default function getAppointmentsForDay(state, day){
+export function getAppointmentsForDay(state, day) {
   let appts = [];
 
   state.days.forEach(dayObject => {
@@ -13,4 +13,15 @@ export default function getAppointmentsForDay(state, day){
   })
 
   return appts;
+}
+
+
+export function getInterview(state, interview) {
+  let returnObject = interview
+
+  if (returnObject) {
+    returnObject.interviewer = state.interviewers[interview.interviewer]
+    return returnObject;
+  }
+  return null;
 }

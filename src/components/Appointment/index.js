@@ -2,18 +2,20 @@ import React from "react";
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
+import Form from "./Form";
+import useVisualMode from "../../hooks/useVisualMode";
 
 import "components/Appointment/styles.scss";
 
-// Header
-// const { time } = props;
-// Empty
-// const { onAdd } = props;
-// Show
-// const { student, interviewer, onEdit, onDelete } = props;
+const EMPTY = "EMPTY";
+const SHOW = "SHOW";
+const CREATE = "CREATE";
 
 export default function Appointment(props) {
-  const { time, interview } = props;
+  const { time, interview, interviewers } = props;
+  // console.log("time: ", time);
+  // console.log("interview: ", interview);
+  console.log("interviewers: ", interviewers);
 
   /* interview is an object : { student: "Lydia Miller-Jones", interviewer }
   interviewer is an object : {
@@ -22,13 +24,31 @@ export default function Appointment(props) {
     avatar: "https://i.imgur.com/LpaY82x.png",
   } */
 
+  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
+
+
   return (
     <article className="appointment">
       <Header time={time} />
-      {interview ? (
+      {mode === EMPTY && (
+        <Empty
+          onAdd={() => {
+            console.log("Clicked onAdd");
+            transition(CREATE);
+          }}
+        />
+      )}
+      {mode === SHOW && (
         <Show student={interview.student} interviewer={interview.interviewer} />
-      ) : (
-        <Empty />
+      )}
+      {mode === CREATE && (
+        <Form
+          interviewers={interviewers}
+          onCancel={() => {
+            console.log("Clicked onCancel");
+            back();
+          }}
+        />
       )}
     </article>
   );

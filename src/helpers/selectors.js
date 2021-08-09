@@ -16,6 +16,7 @@ export function getAppointmentsForDay(state, day) {
 }
 
 
+
 export function getInterview(state, interview) {
   let returnObject = interview
 
@@ -24,4 +25,22 @@ export function getInterview(state, interview) {
     return returnObject;
   }
   return null;
+}
+
+
+
+export function getInterviewersForDay(state, day) {
+  let interviews = [];
+
+  state.days.forEach(dayObject => {
+    if (dayObject.name === day) {
+      dayObject.interviewers.forEach(apptNum => {
+        interviews.push(state.interviewers[apptNum])
+        return;
+      })
+      return;
+    }
+  })
+
+  return interviews;
 }

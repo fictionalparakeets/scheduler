@@ -7,15 +7,17 @@ import { useState } from 'react';
     return an object with a mode property
 */
 
-export default function useVisualMode(initialMode, replace) {
+
+export default function useVisualMode(initialMode) {
   const [mode, setMode] = useState(initialMode)
   const [history, setHistory] = useState([initialMode])
 
-  const transition = (newMode) => {
+  const transition = (newMode, replace = false) => {
     if (replace) {
-      history.push(newMode)
-      setMode(newMode)
+      history.pop()
     }
+    history.push(newMode)
+    setMode(newMode)
   }
   
   const back = () => {
@@ -26,10 +28,6 @@ export default function useVisualMode(initialMode, replace) {
       setMode(history.pop())
     }
   }
-
-  console.log('history: ', history)
   
   return { mode, transition, back };
 }
-
-

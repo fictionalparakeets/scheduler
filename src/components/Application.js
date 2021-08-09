@@ -41,7 +41,18 @@ export default function Application(props) {
       });
   }, [])
 
-  // console.log('state.interviews', state.interviewers);
+
+  
+
+
+
+  // "Creating Appointments" (syncronizing state between client and server)
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
+
+
+
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const dailyInterviewers = getInterviewersForDay(state, state.day);
@@ -54,10 +65,28 @@ export default function Application(props) {
       {...eachObj}
       interview={interview}
       interviewers={dailyInterviewers}
+      bookInterview={bookInterview}
       />
     )
   })
   mappedDailyAppts.push(<Appointment key="last" time="5pm" />)
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   return (

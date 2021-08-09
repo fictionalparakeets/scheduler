@@ -4,7 +4,6 @@ import axios from 'axios';
 import DayList from "./DayList";
 import Appointment from "./Appointment/index";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors";
-// import getInterview from "../helpers/selectors";
 
 import "components/Application.scss";
 
@@ -20,10 +19,6 @@ export default function Application(props) {
   
   // aliasing action for this file
   const setDay = day => setState({ ...state, day });
-  
-  // update for other files (not sure if this is required?)
-  // const state = { day: "Monday", days: [] };
-  // setState({ ...state, day: "Tuesday" });
 
   useEffect(() => {
     Promise.all([
@@ -41,17 +36,54 @@ export default function Application(props) {
       });
   }, [])
 
-
-  
-
-
+  // console.log('state.appointments in Application: ', state.appointments)
+  // console.log('state in Application: ', state)
 
   // "Creating Appointments" (syncronizing state between client and server)
   function bookInterview(id, interview) {
-    console.log(id, interview);
+    // console.log(id, interview);
+    // 1,  Object { student: "namey", interviewer: 7 }
+
+    // http://localhost:8002/api/debug/reset
+    return axios.put(`http://localhost:8002/api/appointments/${id}`, {interview: {...interview}})
+      .then(response => {
+
+        const appointment = {
+          ...state.appointments[id],
+          interview: { ...interview }
+        };
+        const appointments = {
+          ...state.appointments,
+          [id]: appointment
+        };
+    
+        setState({
+          ...state,
+          appointments
+        });
+      })
   }
 
+  function cancelInterview(apptId) {
+    return axios.delete(`http://localhost:8002/api/appointments/${id}`)
+      .then(response => {
+        console.log('cancelInterview response: ', response)
 
+        const appointment = {
+          ...state.appointments[id],
+          interview: { ...interview }
+        };
+        const appointments = {
+          ...state.appointments,
+          [id]: appointment
+        };
+    
+        setState({
+          ...state,
+          appointments
+        });
+      })
+  }
 
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
@@ -62,31 +94,16 @@ export default function Application(props) {
     return (
       <Appointment
       key={eachObj.id}
-      {...eachObj}
+      id={eachObj.id}
+      time={eachObj.time}
       interview={interview}
       interviewers={dailyInterviewers}
       bookInterview={bookInterview}
+      cancelInterview={cancelInterview}
       />
     )
   })
   mappedDailyAppts.push(<Appointment key="last" time="5pm" />)
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   return (

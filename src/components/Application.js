@@ -20,7 +20,7 @@ export default function Application(props) {
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const dailyInterviewers = getInterviewersForDay(state, state.day);
-  
+
   const mappedDailyAppts = dailyAppointments.map(eachObj => {
     const interview = getInterview(state, eachObj.interview);
 
@@ -36,7 +36,6 @@ export default function Application(props) {
       />
     )
   })
-
 
   return (
     <main className="layout">

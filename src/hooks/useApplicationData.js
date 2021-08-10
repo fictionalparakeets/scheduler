@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function useApplicationData() {
-
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {},
-    interviewers: {}
+    interviewers: {},
   });
 
   const setDay = (day) => setState({ ...state, day });
@@ -27,12 +26,19 @@ export default function useApplicationData() {
         }));
       })
       .catch((error) => {
-        console.log(error.response.status); 
+        console.log(error.response.status);
         console.log(error.response.headers);
         console.log(error.response.data);
       });
   }, []);
 
+
+  // WIP
+  // function spotsLeft(state) {
+  //   console.log('state: ', state);
+  //   // const daysInterviews = state.days.filter(dayObject => dayObject.name === day)
+  //   // console.log(daysInterviews);
+  // }
 
   function bookInterview(id, interview) {
     // http://localhost:8002/api/debug/reset
@@ -54,7 +60,8 @@ export default function useApplicationData() {
           ...state,
           appointments,
         });
-      });
+
+      })
   }
 
 
@@ -80,6 +87,5 @@ export default function useApplicationData() {
       });
   }
 
-
-  return { state, setDay, bookInterview, cancelInterview }
+  return { state, setDay, bookInterview, cancelInterview };
 }

@@ -10,7 +10,7 @@ import React from "react";
 export default function Show(props) {
   const { student, interviewer, onEdit, onDelete } = props;
   // console.log('student inside Show component: ', student)
-  console.log('interviewer inside Show component: ', interviewer)
+  // console.log('interviewer inside Show component: ', interviewer)
 
   return (
     <main className="appointment__card appointment__card--show">

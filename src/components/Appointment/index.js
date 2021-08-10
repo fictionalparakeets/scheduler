@@ -4,24 +4,32 @@ import Show from "./Show";
 import Empty from "./Empty";
 import Form from "./Form";
 import Status from "./Status";
+import Confirm from "./Confirm";
+import Error from "./Error";
 import useVisualMode from "../../hooks/useVisualMode";
 
 import "components/Appointment/styles.scss";
 
+// States:
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVE = "SAVE";
+const DELETE = "DELETE";
+const CONFIRM = "CONFIRM";
+const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
+
 
 export default function Appointment(props) {
-  const { id, time, interview, interviewers, bookInterview } = props;
+  const { id, time, interview, interviewers, bookInterview, cancelInterview } =
+    props;
+  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
   // console.log('props in Appointment: ', props)
   // Object { id: 2, time: "1pm", interview: {…}, interviewers: (5) […], bookInterview: bookInterview(id, interview), … }
   // the object id is equal to the appointment spot each day. (this example was for the second timeslot of the day)
-
-  // console.log("time in Appointment: ", time);
-  // console.log("interview in Appointment: ", interview);
 
   // console.log("interviewers in Appointment: ", interviewers);
   /*
@@ -43,31 +51,32 @@ export default function Appointment(props) {
   interviewers is an array of interviewer objects  
   */
 
-  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
-
-
   // "Creating Appointments" (syncronizing state between client and server)
   function save(name, interviewer) {
     const interview = {
       student: name,
-      interviewer
+      interviewer,
     };
 
     //show saving indicator before calling bookInterview
-    transition(SAVE)
-
+    transition(SAVE, true);
     bookInterview(id, interview)
-      .then(result => {
-        console.log('result of bookInterview call: ', bookInterview)
-        transition(SHOW)
+      .then((result) => {
+        transition(SHOW);
       })
-      .catch(e => console.log(e))
-    // console.log('interviewer inside save function: ', interviewer)
-    // console.log('interview inside save function: ', interview)
-
-    // once the interview is booked, transition to SHOW component
+      .catch((e) => transition(ERROR_SAVE, true));
   }
 
+  // "Deleting Appointments" (syncronizing state between client and server)
+  function deleteAppt() {
+    //show deleting indicator before calling cancelInterview
+    transition(DELETE, true);
+    cancelInterview(id)
+      .then((result) => {
+        transition(EMPTY);
+      })
+      .catch((e) => transition(ERROR_DELETE, true));
+  }
 
   return (
     <article className="appointment">
@@ -81,7 +90,12 @@ export default function Appointment(props) {
         />
       )}
       {mode === SHOW && (
-        <Show student={interview.student} interviewer={interview.interviewer} />
+        <Show
+          student={interview.student}
+          interviewer={interview.interviewer}
+          onDelete={() => transition(CONFIRM)}
+          onEdit={() => transition(EDIT)}
+        />
       )}
       {mode === CREATE && (
         <Form
@@ -93,9 +107,37 @@ export default function Appointment(props) {
           onSave={save}
         />
       )}
-      {mode === SAVE && (
-        <Status
-          message="saving"
+      {mode === SAVE && <Status message="Saving" />}
+      {mode === DELETE && <Status message="Deleting" />}
+      {mode === CONFIRM && (
+        <Confirm
+          message="Are you sure you would like to delete this appointment?"
+          onCancel={() => transition(SHOW)}
+          onConfirm={deleteAppt}
+        />
+      )}
+      {mode === EDIT && (
+        <Form
+          interviewer={interview.interviewer.id}
+          name={interview.student}
+          interviewers={interviewers}
+          onCancel={() => {
+            console.log("Clicked onCancel");
+            back();
+          }}
+          onSave={save}
+        />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error
+          message="Could not save changes"
+          onClose={() => back()}
+        />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error
+          message="Could not delete this appointment"
+          onClose={() => back()}
         />
       )}
     </article>

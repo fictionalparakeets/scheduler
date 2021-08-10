@@ -5,9 +5,7 @@ export function getAppointmentsForDay(state, day) {
     if (dayObject.name === day) {
       dayObject.appointments.forEach(apptNum => {
         appts.push(state.appointments[apptNum])
-        return;
       })
-      return;
     }
   })
 
@@ -41,3 +39,4 @@ export function getInterviewersForDay(state, day) {
 
   return interviews;
 }
+

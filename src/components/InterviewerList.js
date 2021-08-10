@@ -13,6 +13,7 @@ import "components/InterviewerList.scss";
 
 export default function InterviewerList(props) {
   const { interviewers, value, onChange } = props;
+  console.log('interviewers in InterviewerList: ', interviewers)
 
   InterviewerList.propTypes = {
     interviewers: PropTypes.array.isRequired

@@ -20,6 +20,8 @@ import InterviewerList from "../InterviewerList";
 
 export default function Form(props) {
   const { name, interviewers, interviewer, onSave, onCancel } = props;
+  // console.log('props: ', props)
+  // console.log('props.interviewer: ', props.interviewer)
   
   const [nameState, setName] = useState(name || "");
   const [interviewerState, setInterviewer] = useState(interviewer || null);
@@ -41,9 +43,10 @@ export default function Form(props) {
       return;
     }
     setError("");
+    // console.log('interviewerState in Form > validate(): ', interviewerState)
     onSave(nameState, interviewerState);
   }
-  
+  // console.log('interviewerState in Form: ', interviewerState)
 
   return (
     <main className="appointment__card appointment__card--create">

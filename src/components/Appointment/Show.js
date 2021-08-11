@@ -12,6 +12,8 @@ export default function Show(props) {
   // console.log('student inside Show component: ', student)
   // console.log('interviewer inside Show component: ', interviewer)
 
+  // console.log('interviewer in Show: ', interviewer)
+
   return (
     <main className="appointment__card appointment__card--show">
       <section className="appointment__card-left">

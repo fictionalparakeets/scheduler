@@ -34,6 +34,8 @@ export default function Appointment(props) {
       student: name,
       interviewer,
     };
+    // console.log('interviewer inside save function: ', interviewer)
+    // console.log('interviewer.id inside save function: ', interviewer.id)
 
     //show saving indicator before calling bookInterview
     transition(SAVE, true);
@@ -62,7 +64,6 @@ export default function Appointment(props) {
       {mode === EMPTY && (
         <Empty
           onAdd={() => {
-            console.log("Clicked onAdd");
             transition(CREATE);
           }}
         />

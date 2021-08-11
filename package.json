@@ -12,9 +12,9 @@
   "scripts": {
     "start": "CHOKIDAR_USEPOLLING=true react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "CHOKIDAR_USEPOLLING=true react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "CHOKIDAR_USEPOLLING=true start-storybook -p 9009 -s public --ci",
+    "storybook": "start-storybook -p 9009 -s public --ci",
     "build-storybook": "build-storybook -s public"
   },
   "browserslist": {

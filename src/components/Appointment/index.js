@@ -27,29 +27,6 @@ export default function Appointment(props) {
     props;
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
-  // console.log('props in Appointment: ', props)
-  // Object { id: 2, time: "1pm", interview: {…}, interviewers: (5) […], bookInterview: bookInterview(id, interview), … }
-  // the object id is equal to the appointment spot each day. (this example was for the second timeslot of the day)
-
-  // console.log("interviewers in Appointment: ", interviewers);
-  /*
-  Array(5) [ {…}, {…}, {…}, {…}, {…} ]
-    0: Object { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" }
-    1: Object { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
-    2: Object { id: 7, name: "Alec Quon", avatar: "https://i.imgur.com/3tVgsra.jpg" }
-    3: Object { id: 8, name: "Viktor Jain", avatar: "https://i.imgur.com/iHq8K8Z.jpg" }
-    4: Object { id: 9, name: "Lindsay Chu", avatar: "https://i.imgur.com/nPywAp1.jpg" }
-    length: 5
-  */
-
-  /* interview is an object : { student: "Lydia Miller-Jones", interviewer }
-  interviewer is an object : {
-    id: 1,
-    name: "Sylvia Palmer",
-    avatar: "https://i.imgur.com/LpaY82x.png",
-  } 
-  interviewers is an array of interviewer objects  
-  */
 
   // "Creating Appointments" (syncronizing state between client and server)
   function save(name, interviewer) {
@@ -78,8 +55,9 @@ export default function Appointment(props) {
       .catch((e) => transition(ERROR_DELETE, true));
   }
 
+  
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={time} />
       {mode === EMPTY && (
         <Empty
@@ -101,7 +79,6 @@ export default function Appointment(props) {
         <Form
           interviewers={interviewers}
           onCancel={() => {
-            console.log("Clicked onCancel");
             back();
           }}
           onSave={save}
@@ -122,7 +99,6 @@ export default function Appointment(props) {
           name={interview.student}
           interviewers={interviewers}
           onCancel={() => {
-            console.log("Clicked onCancel");
             back();
           }}
           onSave={save}

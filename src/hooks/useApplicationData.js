@@ -35,7 +35,7 @@ export default function useApplicationData() {
       });
   }, []);
 
-  // WIP
+  
   function spotsLeft(state) {
 
     const todaysAppts = getAppointmentsForDay(state, state.day)

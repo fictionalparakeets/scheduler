@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { getAppointmentsForDay } from "helpers/selectors";
+
 
 export default function useApplicationData() {
   const [state, setState] = useState({
@@ -26,19 +28,34 @@ export default function useApplicationData() {
         }));
       })
       .catch((error) => {
-        console.log(error.response.status);
-        console.log(error.response.headers);
-        console.log(error.response.data);
+        console.log(error);
+        // console.log(error.response.status);
+        // console.log(error.response.headers);
+        // console.log(error.response.data);
       });
   }, []);
 
-
   // WIP
-  // function spotsLeft(state) {
-  //   console.log('state: ', state);
-  //   // const daysInterviews = state.days.filter(dayObject => dayObject.name === day)
-  //   // console.log(daysInterviews);
-  // }
+  function spotsLeft(state) {
+
+    const todaysAppts = getAppointmentsForDay(state, state.day)
+    let freeSpots = 0
+    todaysAppts.forEach(object => {
+      if (!object.interview) {
+        freeSpots += 1
+      }
+    })
+
+    const newState = {...state}
+    for (const dayObj of newState.days) {
+      if (dayObj.name === state.day) {
+        dayObj.spots = freeSpots
+      }
+    }
+
+    return newState;
+  }
+
 
   function bookInterview(id, interview) {
     // http://localhost:8002/api/debug/reset
@@ -56,21 +73,14 @@ export default function useApplicationData() {
           [id]: appointment,
         };
 
-        setState({
-          ...state,
-          appointments,
-        });
-
-      })
+        setState(spotsLeft({ ...state, appointments,}));
+      });
   }
-
 
   function cancelInterview(apptId) {
     return axios
       .delete(`http://localhost:8002/api/appointments/${apptId}`)
       .then((response) => {
-        console.log("cancelInterview response: ", response);
-
         const appointment = {
           ...state.appointments[apptId],
           interview: null,
@@ -80,10 +90,7 @@ export default function useApplicationData() {
           [apptId]: appointment,
         };
 
-        setState({
-          ...state,
-          appointments,
-        });
+        setState(spotsLeft({ ...state, appointments,}));
       });
   }
 

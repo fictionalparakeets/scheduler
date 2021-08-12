@@ -21,3 +21,8 @@ npm test
 ```sh
 npm run storybook
 ```
+
+
+
+To reset the db for testing: 
+http://localhost:8002/api/debug/reset

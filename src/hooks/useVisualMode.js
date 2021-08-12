@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 /*
     take in an initial mode
@@ -7,25 +7,25 @@ import { useState } from 'react';
 */
 
 export default function useVisualMode(initialMode) {
-  const [mode, setMode] = useState(initialMode)
-  const [history, setHistory] = useState([initialMode])
+  const [mode, setMode] = useState(initialMode);
+  const [history, setHistory] = useState([initialMode]);
 
   const transition = (newMode, replace = false) => {
     if (replace) {
-      history.pop()
+      history.pop();
     }
-    history.push(newMode)
-    setMode(newMode)
-  }
-  
+    history.push(newMode);
+    setMode(newMode);
+  };
+
   const back = () => {
     if (history[history.length - 1] === mode) {
-      history.pop()
+      history.pop();
     }
     if (history.length) {
-      setMode(history.pop())
+      setMode(history.pop());
     }
-  }
-  
+  };
+
   return { mode, transition, back };
 }

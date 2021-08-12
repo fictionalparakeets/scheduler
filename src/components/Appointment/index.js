@@ -21,21 +21,17 @@ const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
-
 export default function Appointment(props) {
   const { id, time, interview, interviewers, bookInterview, cancelInterview } =
     props;
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
-
-  // "Creating Appointments" (syncronizing state between client and server)
+  // "Creating/updating Appointments"
   function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer,
     };
-    // console.log('interviewer inside save function: ', interviewer)
-    // console.log('interviewer.id inside save function: ', interviewer.id)
 
     //show saving indicator before calling bookInterview
     transition(SAVE, true);
@@ -46,7 +42,7 @@ export default function Appointment(props) {
       .catch((e) => transition(ERROR_SAVE, true));
   }
 
-  // "Deleting Appointments" (syncronizing state between client and server)
+  // "Deleting Appointments"
   function deleteAppt() {
     //show deleting indicator before calling cancelInterview
     transition(DELETE, true);
@@ -57,7 +53,6 @@ export default function Appointment(props) {
       .catch((e) => transition(ERROR_DELETE, true));
   }
 
-  
   return (
     <article className="appointment" data-testid="appointment">
       <Header time={time} />
@@ -106,10 +101,7 @@ export default function Appointment(props) {
         />
       )}
       {mode === ERROR_SAVE && (
-        <Error
-          message="Could not save changes"
-          onClose={() => back()}
-        />
+        <Error message="Could not save changes" onClose={() => back()} />
       )}
       {mode === ERROR_DELETE && (
         <Error

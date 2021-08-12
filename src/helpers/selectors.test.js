@@ -1,7 +1,7 @@
 import {
   getAppointmentsForDay,
   getInterviewersForDay,
-  getInterview
+  getInterview,
 } from "helpers/selectors";
 
 const state = {
@@ -10,13 +10,13 @@ const state = {
       id: 1,
       name: "Monday",
       appointments: [1, 2, 3],
-      interviewers: [1, 2]
+      interviewers: [1, 2],
     },
     {
       id: 2,
       name: "Tuesday",
       appointments: [4, 5],
-      interviewers: [1, 2]
+      interviewers: [1, 2],
     },
   ],
   appointments: {

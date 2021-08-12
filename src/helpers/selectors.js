@@ -22,7 +22,6 @@ export function getInterview(state, interview) {
   return null;
 }
 
-
 export function getInterviewersForDay(state, day) {
   let interviews = [];
 
@@ -36,4 +35,3 @@ export function getInterviewersForDay(state, day) {
 
   return interviews;
 }
-

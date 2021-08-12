@@ -3,38 +3,36 @@ import React from "react";
 import DayList from "./DayList";
 import Appointment from "./Appointment/index";
 import useApplicationData from "../hooks/useApplicationData";
-import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "../helpers/selectors";
 
 import "components/Application.scss";
 
-
 export default function Application(props) {
-
-  const {
-    state,
-    setDay,
-    bookInterview,
-    cancelInterview
-  } = useApplicationData();
+  const { state, setDay, bookInterview, cancelInterview } =
+    useApplicationData();
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const dailyInterviewers = getInterviewersForDay(state, state.day);
 
-  const mappedDailyAppts = dailyAppointments.map(eachObj => {
+  const mappedDailyAppts = dailyAppointments.map((eachObj) => {
     const interview = getInterview(state, eachObj.interview);
 
     return (
       <Appointment
-      key={eachObj.id}
-      id={eachObj.id}
-      time={eachObj.time}
-      interview={interview}
-      interviewers={dailyInterviewers}
-      bookInterview={bookInterview}
-      cancelInterview={cancelInterview}
+        key={eachObj.id}
+        id={eachObj.id}
+        time={eachObj.time}
+        interview={interview}
+        interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
-    )
-  })
+    );
+  });
 
   return (
     <main className="layout">
@@ -46,11 +44,7 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList
-            day={state.day}
-            setDay={setDay}
-            days={state.days}
-          />
+          <DayList day={state.day} setDay={setDay} days={state.days} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"

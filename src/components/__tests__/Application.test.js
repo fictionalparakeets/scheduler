@@ -20,7 +20,6 @@ import Application from "components/Application";
 afterEach(cleanup);
 
 describe("Application", () => {
-
   // --------------------------------------------------- TEST 1
   it("changes the schedule when a new day is selected", async () => {
     const { getByText } = render(<Application />);
@@ -31,7 +30,6 @@ describe("Application", () => {
 
     expect(getByText("Leopold Silvers")).toBeInTheDocument();
   });
-
 
   // --------------------------------------------------- TEST 2
   it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
@@ -62,7 +60,6 @@ describe("Application", () => {
     expect(getByText(day, "no spots remaining")).toBeInTheDocument();
   });
 
-
   // --------------------------------------------------- TEST 3
   it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
     const { container } = render(<Application />);
@@ -76,7 +73,10 @@ describe("Application", () => {
     fireEvent.click(queryByAltText(appointment, "Delete"));
 
     expect(
-      getByText(appointment, "Are you sure you would like to delete this appointment?")
+      getByText(
+        appointment,
+        "Are you sure you would like to delete this appointment?"
+      )
     ).toBeInTheDocument();
 
     fireEvent.click(getByText(appointment, "Confirm"));
@@ -92,7 +92,6 @@ describe("Application", () => {
     expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
   });
 
-
   // --------------------------------------------------- TEST 5
   it("shows the save error when failing to save an appointment", async () => {
     axios.put.mockRejectedValueOnce();
@@ -105,7 +104,7 @@ describe("Application", () => {
     fireEvent.click(getByAltText(appointment, "Add"));
 
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
-      target: { value: "Lydia Miller-Jones" }
+      target: { value: "Lydia Miller-Jones" },
     });
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
 
@@ -113,9 +112,10 @@ describe("Application", () => {
 
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
 
-    await waitForElement(() => getByText(appointment, "Could not save changes"));
+    await waitForElement(() =>
+      getByText(appointment, "Could not save changes")
+    );
   });
-
 
   // --------------------------------------------------- TEST 6
   it("shows the delete error when failing to delete an existing appointment", async () => {
@@ -125,18 +125,24 @@ describe("Application", () => {
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
     const appointment = getAllByTestId(container, "appointment").find(
-      appointment => queryByText(appointment, "Archie Cohen")
+      (appointment) => queryByText(appointment, "Archie Cohen")
     );
 
     fireEvent.click(queryByAltText(appointment, "Delete"));
-  
-    expect(getByText(appointment, "Are you sure you would like to delete this appointment?")).toBeInTheDocument();
+
+    expect(
+      getByText(
+        appointment,
+        "Are you sure you would like to delete this appointment?"
+      )
+    ).toBeInTheDocument();
 
     fireEvent.click(getByText(appointment, "Confirm"));
 
     expect(getByText(appointment, "Deleting")).toBeInTheDocument();
 
-    await waitForElement(() => getByText(appointment, "Could not delete this appointment"));
-  })
-
+    await waitForElement(() =>
+      getByText(appointment, "Could not delete this appointment")
+    );
+  });
 });

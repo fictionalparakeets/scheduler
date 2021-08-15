@@ -35,4 +35,4 @@ Running the test environment (Jest in PowerShell)
 $env:NODE_ENV="test" ; node ./src/index.js
 
 To reset the db for testing: 
-http://localhost:8002/api/debug/reset
+http://localhost:8001/api/debug/reset

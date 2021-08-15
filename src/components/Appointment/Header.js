@@ -1,9 +1,5 @@
 import React from "react";
 
-/* --------- props:
-  time = string i.e. "12pm"
-*/
-
 export default function Header(props) {
   const { time } = props;
 

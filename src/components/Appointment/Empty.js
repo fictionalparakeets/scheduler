@@ -1,9 +1,5 @@
 import React from "react";
 
-/* --------- props:
-  onAdd:Function to be called when the user clicks the Add button
-*/
-
 export default function Header(props) {
   const { onAdd } = props;
 

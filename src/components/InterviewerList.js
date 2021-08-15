@@ -4,12 +4,6 @@ import InterviewerListItem from "./InterviewerListItem";
 
 import "components/InterviewerList.scss";
 
-/* --------- props:
-    interviewers:array - an array of objects containing the information of each interviewer
-    interviewer:number - the id of an interviewer > Turned into `value` (controlled component)
-    setInterviewer:function - a function that accepts an interviewer id
-*/
-
 export default function InterviewerList(props) {
   const { interviewers, value, onChange } = props;
 

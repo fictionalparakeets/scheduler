@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup } from "@testing-library/react";
+import { render, cleanup, getByAltText } from "@testing-library/react";
 import { fireEvent } from "@testing-library/react";
 
 import Form from "components/Appointment/Form";
@@ -58,7 +58,7 @@ describe("Form", () => {
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
       target: { value: "Lydia Miller-Jones" },
     });
-
+    
     fireEvent.click(getByText("Save"));
 
     expect(queryByText(/student name cannot be blank/i)).toBeNull();

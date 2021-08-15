@@ -1,31 +1,27 @@
 import { useState } from "react";
 
-/*
-    take in an initial mode
-    set the mode state with the initial mode provided
-    return an object with a mode property
-*/
-
 export default function useVisualMode(initialMode) {
   const [mode, setMode] = useState(initialMode);
   const [history, setHistory] = useState([initialMode]);
 
-  const transition = (newMode, replace = false) => {
-    if (replace) {
-      history.pop();
-    }
-    history.push(newMode);
-    setMode(newMode);
-  };
+  const newHistory = [...history];
 
-  const back = () => {
-    if (history[history.length - 1] === mode) {
-      history.pop();
+  function transition(newMode, replace = false) {
+    if (replace) {
+      newHistory.pop();
     }
-    if (history.length) {
-      setMode(history.pop());
+    newHistory.push(newMode);
+    setHistory(newHistory);
+    setMode(newHistory[newHistory.length - 1]);
+  }
+
+  function back() {
+    if (newHistory.length - 1) {
+      newHistory.pop();
     }
-  };
+    setMode(newHistory[newHistory.length - 1]);
+    setHistory(newHistory);
+  }
 
   return { mode, transition, back };
 }

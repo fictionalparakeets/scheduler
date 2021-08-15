@@ -102,8 +102,8 @@ test("getInterviewersForDay returns an array with a length matching the number o
   const result = getInterviewersForDay(state, "Monday");
   expect(result.length).toEqual(3);
 });
-*/
-/*
+
+
 test("getInterviewersForDay returns an array containing the correct interview objects", () => {
   const [first, second] = getInterviewersForDay(state, "Tuesday");
   expect(first).toEqual(state.appointments["4"]);

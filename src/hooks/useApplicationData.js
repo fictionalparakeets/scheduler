@@ -10,13 +10,15 @@ export default function useApplicationData() {
     interviewers: {},
   });
 
-  const setDay = (day) => setState({ ...state, day });
+  function setDay(day) {
+    setState({ ...state, day });
+  }
 
   useEffect(() => {
     Promise.all([
-      axios.get("http://localhost:8002/api/days"),
-      axios.get("http://localhost:8002/api/appointments"),
-      axios.get("http://localhost:8002/api/interviewers"),
+      axios.get("http://localhost:8001/api/days"),
+      axios.get("http://localhost:8001/api/appointments"),
+      axios.get("http://localhost:8001/api/interviewers"),
     ])
       .then((all) => {
         setState((prev) => ({
@@ -27,9 +29,7 @@ export default function useApplicationData() {
         }));
       })
       .catch((error) => {
-        console.log(error.response.status);
-        console.log(error.response.headers);
-        console.log(error.response.data);
+        console.log(error.response);
       });
   }, []);
 
@@ -54,7 +54,7 @@ export default function useApplicationData() {
 
   function bookInterview(id, interview) {
     return axios
-      .put(`http://localhost:8002/api/appointments/${id}`, {
+      .put(`http://localhost:8001/api/appointments/${id}`, {
         interview: { ...interview },
       })
       .then((response) => {
@@ -73,7 +73,7 @@ export default function useApplicationData() {
 
   function cancelInterview(apptId) {
     return axios
-      .delete(`http://localhost:8002/api/appointments/${apptId}`)
+      .delete(`http://localhost:8001/api/appointments/${apptId}`)
       .then((response) => {
         const appointment = {
           ...state.appointments[apptId],

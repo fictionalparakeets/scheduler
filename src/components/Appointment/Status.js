@@ -1,9 +1,5 @@
 import React from "react";
 
-/* --------- props:
-    message:String eg. "Deleting"
-*/
-
 export default function Status(props) {
   const { message } = props;
 

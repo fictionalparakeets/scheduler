@@ -15,13 +15,13 @@ export default function Form(props) {
   };
 
   const cancel = () => {
-    onCancel();
     reset();
+    onCancel();
   };
 
-  function validate(nameState, interviewerState) {
+  function validate() {
     if (nameState === "") {
-      setError("Student name cannot be blank");
+      setError("Please enter a name");
       return;
     }
     if (interviewerState === null) {
@@ -56,7 +56,7 @@ export default function Form(props) {
           <Button onClick={cancel} danger>
             Cancel
           </Button>
-          <Button onClick={() => validate(nameState, interviewerState)} confirm>
+          <Button onClick={() => validate()} confirm>
             Save
           </Button>
         </section>

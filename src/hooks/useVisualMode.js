@@ -12,11 +12,11 @@ export default function useVisualMode(initialMode) {
     }
     newHistory.push(newMode);
     setHistory(newHistory);
-    setMode(newHistory[newHistory.length - 1]);
+    setMode(newMode);
   }
 
   function back() {
-    if (newHistory.length - 1) {
+    if (newHistory.length > 1) {
       newHistory.pop();
     }
     setMode(newHistory[newHistory.length - 1]);

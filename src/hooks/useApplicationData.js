@@ -34,6 +34,7 @@ export default function useApplicationData() {
   }, []);
 
   function spotsLeft(state) {
+
     const todaysAppts = getAppointmentsForDay(state, state.day);
     let freeSpots = 0;
     todaysAppts.forEach((object) => {
@@ -53,6 +54,7 @@ export default function useApplicationData() {
   }
 
   function bookInterview(id, interview) {
+
     return axios
       .put(`/api/appointments/${id}`, {
         interview: { ...interview },

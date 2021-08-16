@@ -22,8 +22,7 @@ const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
-  const { id, time, interview, interviewers, bookInterview, cancelInterview } =
-    props;
+  const { id, time, interview, interviewers, bookInterview, cancelInterview } = props;
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
   // "Creating/updating Appointments"
@@ -36,9 +35,7 @@ export default function Appointment(props) {
     //show saving indicator before calling bookInterview
     transition(SAVE, true);
     bookInterview(id, interview)
-      .then((result) => {
-        transition(SHOW);
-      })
+      .then((result) => transition(SHOW))
       .catch((e) => transition(ERROR_SAVE, true));
   }
 
@@ -47,9 +44,7 @@ export default function Appointment(props) {
     //show deleting indicator before calling cancelInterview
     transition(DELETE, true);
     cancelInterview(id)
-      .then((result) => {
-        transition(EMPTY);
-      })
+      .then((result) => transition(EMPTY))
       .catch((e) => transition(ERROR_DELETE, true));
   }
 
@@ -58,9 +53,7 @@ export default function Appointment(props) {
       <Header time={time} />
       {mode === EMPTY && (
         <Empty
-          onAdd={() => {
-            transition(CREATE);
-          }}
+          onAdd={() => transition(CREATE)}
         />
       )}
       {mode === SHOW && (
@@ -74,9 +67,7 @@ export default function Appointment(props) {
       {mode === CREATE && (
         <Form
           interviewers={interviewers}
-          onCancel={() => {
-            back();
-          }}
+          onCancel={() => back()}
           onSave={save}
         />
       )}
@@ -94,9 +85,7 @@ export default function Appointment(props) {
           interviewer={interview.interviewer.id}
           name={interview.student}
           interviewers={interviewers}
-          onCancel={() => {
-            back();
-          }}
+          onCancel={() => back()}
           onSave={save}
         />
       )}

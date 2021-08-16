@@ -14,9 +14,10 @@ export function getAppointmentsForDay(state, day) {
 
 export function getInterview(state, interview) {
   let returnObject = interview;
-
   if (returnObject) {
-    returnObject.interviewer = state.interviewers[interview.interviewer];
+    if (Number.isInteger(interview.interviewer)) {
+      returnObject.interviewer = state.interviewers[interview.interviewer];
+    }
     return returnObject;
   }
   return null;
